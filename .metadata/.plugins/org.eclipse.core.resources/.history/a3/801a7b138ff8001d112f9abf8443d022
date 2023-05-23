@@ -1,0 +1,29 @@
+package com.streams.demo;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class StreamsAPIDemo {
+
+	public static void main(String[] args) {
+		ArrayList<Employee> employees =  new ArrayList<>();
+		employees.add(new Employee("Rishabh Sharma", "IT", 32,"MALE"));
+		employees.add(new Employee("Radha Surya", "HR", 28,"FEMALE"));
+		employees.add(new Employee("Ajay Surya", "HR", 32,"MALE"));
+		employees.add(new Employee("Jyoti Reddy", "IT", 28,"FEMALE"));
+		
+		//to find all the distinct department
+		employees.stream().map(Employee::getDepartment).distinct().forEach(System.out :: println);
+		
+		//HR has 2 emp and It has 2 emp return count of all department
+		Map<String, Long> empCountByDepartment = employees.stream().collect(Collectors.groupingBy(Employee::getDepartment,Collectors.counting()));
+		System.out.println(empCountByDepartment);
+		
+		//avarage age of Male and Female employees
+		Map<String,Double> avgAgeByGender = employees.stream().collect(Collectors.groupingBy(Employee :: getGender,Collectors.averagingLong(Employee::getAge)));
+		System.out.println(avgAgeByGender);
+	}
+
+}
